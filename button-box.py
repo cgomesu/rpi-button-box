@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 from gpiozero import Button, Buzzer, pi_info
 from gpiozero.tools import any_values
-# see signal for handling SIGINT
 from signal import pause
 from argparse import ArgumentParser
 # from subprocess import Popen, check_call
@@ -10,11 +9,8 @@ from argparse import ArgumentParser
 # TODO(cgomesu): add logging capabilities
 def cli_args():
 	ap = ArgumentParser(description='RPi button box controller.')
-	ap.add_argument('--buzzer', type=int, default=None,
-					choices=[2, 3, 4, 17, 27, 22, 10, 9, 11, 14, 15, 18, 23, 24, 25, 8, 7], required=False,
-					help='GPIO# for an active buzzer. Default = None')
-	ap.add_argument('--info', type=str, default=False, choices=['True', 'False'], required=False,
-					help='Just print the board information. Default = False')
+	ap.add_argument('--buzzer', type=int, required=False, help='if installed, the buzzer\'s GPIO number.')
+	ap.add_argument('-i', '--info', action='store_true', required=False, help='Just print the board information.')
 	return vars(ap.parse_args())
 
 
@@ -41,29 +37,37 @@ def end(msg=None, status=0):
 	exit(status)
 
 
-def event_held():
+def event_held(btn):
 	print('event held')
+	print('{0}\t{1}\t{2}'.format(btn.pin, btn.type, btn.label))
 
 
-def event_press():
+def event_press(btn):
 	print('event press')
+	print('{0}\t{1}\t{2}'.format(btn.pin, btn.type, btn.label))
 
 
-def event_release():
+def event_release(btn):
 	print('event release')
+	print('{0}\t{1}\t{2}'.format(btn.pin, btn.type, btn.label))
 
 
 def main():
 	# config_logging()
 	buttons = config_buttons()
-	if args['buzzer']:
-		buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(*buttons)
-	# button specific definitions go here, using the class attributes
+	# when_* properties will pass the device that activated it to a function that takes a single parameter
+	# use the device's attributes to determine what to do
+	push_buttons, switches = [], []
 	for button in buttons:
 		if button.type == 'switch':
+			switches.append(button)
 			button.when_held = event_held
 		else:
+			push_buttons.append(button)
 			button.when_pressed, button.when_released = event_press, event_release
+	if args['buzzer']:
+		# buzzer is only for push buttons
+		buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(*push_buttons)
 	pause()
 
 
