@@ -1,3 +1,6 @@
 .git
 temp
 venv
+docs
+.idea
+
