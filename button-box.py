@@ -1,7 +1,7 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.9
 from gpiozero import Button, Buzzer, Device, pi_info
 from gpiozero.pins.mock import MockFactory
-from gpiozero.tools import all_values, any_values
+from gpiozero.tools import any_values
 # see signal for handling SIGINT
 from signal import pause
 from argparse import ArgumentParser
@@ -25,20 +25,20 @@ def cli_args():
 
 # edit here if changing pins and keyboard keys
 def config_buttons():
-	if args['input'] is 'keyboard':
+	if args['input'] == 'keyboard':
 		Device.pin_factory = MockFactory()
 	# set new Button class attributes
-	Button.key, Button.type = '', ''
+	Button.key, Button.label, Button.type = '', '', ''
 	# create Button devices and set their new attributes
-	g1, g1.key, g1.type = Button(26), 1, 'push'
-	b1, b1.key, b1.type = Button(19), 2, 'push'
-	r1, r1.key, r1.type = Button(13), 3, 'push'
-	g2, g2.key, g2.type = Button(6), 4, 'push'
-	b2, b2.key, b2.type = Button(5), 5, 'push'
-	r2, r2.key, r2.type = Button(12), 6, 'push'
-	s1, s1.key, s1.type = Button(16, hold_time=2), 7, 'switch'
-	s2, s2.key, s2.type = Button(20, hold_time=2), 8, 'switch'
-	s3, s3.key, s3.type = Button(21, hold_time=2), 9, 'switch'
+	g1, g1.key, g1.label, g1.type = Button(26), 1, 'green #1', 'push'
+	b1, b1.key, b1.label, b1.type = Button(19), 2, 'black #1', 'push'
+	r1, r1.key, r1.label, r1.type = Button(13), 3, 'red #1', 'push'
+	g2, g2.key, g2.label, g2.type = Button(6), 4, 'green #2', 'push'
+	b2, b2.key, b2.label, b2.type = Button(5), 5, 'black #2', 'push'
+	r2, r2.key, r2.label, r2.type = Button(12), 6, 'red #2', 'push'
+	s1, s1.key, s1.label, s1.type = Button(16, hold_time=2), 7, 'on/off S1', 'switch'
+	s2, s2.key, s2.label, s2.type = Button(20, hold_time=2), 8, 'middle S2', 'switch'
+	s3, s3.key, s3.label, s3.type = Button(21, hold_time=2), 9, 'right S3', 'switch'
 	return [g1, b1, r1, g2, b2, r2, s1, s2, s3]
 
 
@@ -62,17 +62,17 @@ def event_release():
 
 # user input collector
 def keyboard_collector(btns):
-	with Listener(on_press=keyboard_press, on_release=keyboard_release, suppress=True):
+	with Listener(on_press=keyboard_press, on_release=keyboard_release, suppress=True) as listener:
 		print('#################################################')
 		print('################# KEYBOARD MODE #################')
 		print('#################################################')
 		print('Use your keyboard keys to simulate the button box.'
 			'\n\nTo EXIT, press the \"ESC\" key.'
-			'\nButton : Key mappings:\n')
+			'\n\n\'Button : GPIO# : Key\' mappings:')
 		for btn in btns:
-			print('* {0} : {1}'.format(btn.pin, btn.key))
+			print('*{0}\t:\t{1}\t:\t{2}'.format(btn.label, btn.pin, btn.key))
 		print('\n#################################################\nWaiting for an input...')
-		Listener.join()
+		listener.join()
 
 
 def keyboard_press(key):
@@ -91,14 +91,14 @@ def main():
 	if args['buzzer']:
 		buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(buttons)
 	for button in buttons:
-		if button.type is 'switch':
+		if button.type == 'switch':
 			button.when_held = event_held
 		else:
 			button.when_pressed, button.when_released = event_press, event_release
-	pause() if args['input'] is 'buttons' else keyboard_collector(buttons)
+	pause() if args['input'] == 'buttons' else keyboard_collector(buttons)
 
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
 	args = cli_args()
 	print('{0:board}\n0:headers'.format(pi_info())) if args['info'] else main()
-	exit(0)
+
