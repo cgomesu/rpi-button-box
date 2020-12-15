@@ -14,7 +14,7 @@ def cli_args():
 					choices=[2, 3, 4, 17, 27, 22, 10, 9, 11, 14, 15, 18, 23, 24, 25, 8, 7], required=False,
 					help='GPIO# for an active buzzer. Default = None')
 	ap.add_argument('--info', type=str, default=False, choices=['True', 'False'], required=False,
-					help='Just print the board and headers information. Default = False')
+					help='Just print the board information. Default = False')
 	return vars(ap.parse_args())
 
 
@@ -57,7 +57,8 @@ def main():
 	# config_logging()
 	buttons = config_buttons()
 	if args['buzzer']:
-		buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(buttons)
+		buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(*buttons)
+	# button specific definitions go here, using the class attributes
 	for button in buttons:
 		if button.type == 'switch':
 			button.when_held = event_held
@@ -68,4 +69,4 @@ def main():
 
 if __name__ == '__main__':
 	args = cli_args()
-	print('{0:board}\n0:headers'.format(pi_info())) if args['info'] else main()
+	print('{0:full}'.format(pi_info())) if args['info'] else main()
