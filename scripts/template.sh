@@ -4,7 +4,7 @@
 # Template for a button shell script #
 #######################################################################
 # Note 01.	Proper use of exit statuses is key if using this script in 
-# 			conjunction with Python's check_call
+# 			conjunction with Python's subprocess.run() or check
 #######################################################################
 
 

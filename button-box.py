@@ -1,13 +1,30 @@
 #!/usr/bin/python3
+
+###########################################################################
+# RPi button box controller for bix with 06 push buttons and 03 switches
+#
+# Author: cgomesu
+# Project: https://cgomesu.com/blog/Rpi-button-box-ehdd-enclosure/
+# Repo: https://github.com/cgomesu/rpi-button-box
+#
+# Related docs:
+# - argparse: https://docs.python.org/3/library/argparse.html
+# - gpiozero: https://gpiozero.readthedocs.io/en/stable/index.html
+# - signal: https://docs.python.org/3/library/signal.html
+# - subprocess: https://docs.python.org/3/library/subprocess.html
+# - time: https://docs.python.org/3/library/time.html
+###########################################################################
+
+from argparse import ArgumentParser
 from gpiozero import Button, Buzzer, pi_info
 from gpiozero.tools import any_values
 from signal import pause
-from argparse import ArgumentParser
 from subprocess import Popen, run
 from time import sleep
 
 
 # TODO(cgomesu): add logging capabilities
+# TODO(cgomesu): handle exceptions
 def cli_args():
 	ap = ArgumentParser(description='RPi button box controller. Repo: https://github.com/cgomesu/rpi-button-box')
 	ap.add_argument('--buzzer', type=int, required=False, help='\tIf installed, the buzzer\'s GPIO number.')
@@ -97,7 +114,7 @@ def event_pressed(btn):
 		Popen(btn.cmdpressed) if args['cmd'] == 'Popen' else run(btn.cmdpressed)
 		if args['debug']:
 			print('Finished invoking the script at \'{}\''.format(btn.cmdpressed))
-	sleep(0.05)  # add 50ms to prevent accidental re-triggers
+	sleep(0.05)
 
 
 def event_released(btn):
@@ -109,7 +126,7 @@ def event_released(btn):
 		Popen(btn.cmdheld) if args['cmd'] == 'Popen' else run(btn.cmdheld)
 		if args['debug']:
 			print('Finished invoking the script at \'{}\''.format(btn.cmdheld))
-	sleep(0.05)  # add 50ms to prevent accidental re-triggers
+	sleep(0.05)
 
 
 def main():
@@ -117,9 +134,10 @@ def main():
 	# wait for a button labelled 'power' to be turned ON before continuing
 	for button in buttons:
 		if button.label == 'power':
-			if not button.is_held:
-				print('Waiting for the power button ({}) to be turned on ...'.format(button.pin))
+			if not button.is_active:
+				print('Waiting for the power button ({}) to be turned ON...'.format(button.pin))
 				button.wait_for_active()
+				sleep(button.hold_time)  # wait for the power button to enter is_held state
 			break
 	# when_* properties will pass the device that activated it to a function that takes a single parameter
 	# use the device's attributes (e.g., pin, type, label) to determine what to do
