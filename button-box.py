@@ -4,6 +4,7 @@ from gpiozero.tools import any_values
 from signal import pause
 from argparse import ArgumentParser
 from subprocess import Popen, run
+from time import sleep
 
 
 # TODO(cgomesu): add logging capabilities
@@ -96,6 +97,7 @@ def event_pressed(btn):
 		Popen(btn.cmdpressed) if args['cmd'] == 'Popen' else run(btn.cmdpressed)
 		if args['debug']:
 			print('Finished invoking the script at \'{}\''.format(btn.cmdpressed))
+	sleep(0.05)  # add 50ms to prevent accidental re-triggers
 
 
 def event_released(btn):
@@ -107,6 +109,7 @@ def event_released(btn):
 		Popen(btn.cmdheld) if args['cmd'] == 'Popen' else run(btn.cmdheld)
 		if args['debug']:
 			print('Finished invoking the script at \'{}\''.format(btn.cmdheld))
+	sleep(0.05)  # add 50ms to prevent accidental re-triggers
 
 
 def main():
