@@ -25,7 +25,7 @@ def config_buttons():
 	g2, g2.label, g2.type = Button(6), 'green #2', 'push'
 	b2, b2.label, b2.type = Button(5), 'black #2', 'push'
 	r2, r2.label, r2.type = Button(12), 'red #2', 'push'
-	s1, s1.label, s1.type = Button(16, hold_time=2), 'on/off S1', 'switch'
+	s1, s1.label, s1.type = Button(16, hold_time=2), 'power', 'switch'
 	s2, s2.label, s2.type = Button(20, hold_time=2), 'middle S2', 'switch'
 	s3, s3.label, s3.type = Button(21, hold_time=2), 'right S3', 'switch'
 	return [g1, b1, r1, g2, b2, r2, s1, s2, s3]
@@ -37,6 +37,8 @@ def end(msg=None, status=0):
 	exit(status)
 
 
+# edit event_* to what to do when a button is active or not
+# btn.attributes can be used to assign events on a per button basis
 def event_held(btn):
 	print('event held')
 	print('{0}\t{1}\t{2}'.format(btn.pin, btn.type, btn.label))
@@ -50,25 +52,38 @@ def event_press(btn):
 def event_release(btn):
 	print('event release')
 	print('{0}\t{1}\t{2}'.format(btn.pin, btn.type, btn.label))
+	if btn.label == 'power':
+		end(msg='Power button ({}) is not being held anymore. Turning OFF.'.format(btn.pin), status=0)
 
 
 def main():
-	# config_logging()
 	buttons = config_buttons()
-	# when_* properties will pass the device that activated it to a function that takes a single parameter
-	# use the device's attributes to determine what to do
-	push_buttons, switches = [], []
-	for button in buttons:
-		if button.type == 'switch':
-			switches.append(button)
-			button.when_held = event_held
-		else:
-			push_buttons.append(button)
-			button.when_pressed, button.when_released = event_press, event_release
-	if args['buzzer']:
-		# buzzer is only for push buttons
-		buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(*push_buttons)
-	pause()
+	# wait for a button labelled 'power' to be turned ON before continuing
+	try:
+		for button in buttons:
+			if button.label == 'power':
+				if not button.is_held:
+					print('Waiting for the power button ({}) to be turned on ...'.format(button.pin))
+					button.wait_for_active()
+				break
+		# when_* properties will pass the device that activated it to a function that takes a single parameter
+		# use the device's attributes (e.g., pin, type, label) to determine what to do
+		push_buttons, switches = [], []
+		for button in buttons:
+			if button.type == 'switch':
+				switches.append(button)
+				button.when_held, button.when_released = event_held, event_release
+			else:
+				# assumes only 'push' and 'switch' types
+				push_buttons.append(button)
+				button.when_pressed, button.when_released = event_press, event_release
+		if args['buzzer']:
+			# buzzer is activated by any push button
+			buzzer, buzzer.source = Buzzer(args['buzzer']), any_values(*push_buttons)
+		print('The button box is now turned ON. To close it, release the power switch or press Ctrl+C.')
+		pause()
+	except Exception as err:
+		end(msg='{}'.format(err), status=1)
 
 
 if __name__ == '__main__':
