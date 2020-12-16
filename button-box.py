@@ -28,9 +28,9 @@ from time import sleep
 def cli_args():
 	ap = ArgumentParser(description='RPi button box controller. Repo: https://github.com/cgomesu/rpi-button-box')
 	ap.add_argument('--buzzer', type=int, required=False, help='\tIf installed, the buzzer\'s GPIO number.')
-	ap.add_argument('--cmd', type=str, required=False, choices=['Popen', 'run'], default='Popen',
+	ap.add_argument('--cmd', type=str, required=False, choices=['Popen', 'run'], default='run',
 					help='\tPopen: invoke external scripts in a NON-BLOCKING fashion. '
-						'run: invoke external scripts in a BLOCKING fashion. Default=Popen')
+						'run: invoke external scripts in a BLOCKING fashion. Default=run')
 	ap.add_argument('--g1_pressed', type=str, required=False, default=None,
 					help='Path to the script to run when the button G1 is pressed. Default=None')
 	ap.add_argument('--g1_released', type=str, required=False, default=None,
