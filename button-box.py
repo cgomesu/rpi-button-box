@@ -15,7 +15,7 @@
 # - time: https://docs.python.org/3/library/time.html
 ###########################################################################
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, SUPPRESS
 from gpiozero import Button, Buzzer, pi_info
 from gpiozero.tools import any_values
 from signal import pause
@@ -31,42 +31,24 @@ def cli_args():
 	ap.add_argument('--cmd', type=str, required=False, choices=['Popen', 'run'], default='run',
 					help='\tPopen: invoke external scripts in a NON-BLOCKING fashion. '
 						'run: invoke external scripts in a BLOCKING fashion. Default=run')
-	ap.add_argument('--g1_pressed', type=str, required=False, default=None,
-					help='Path to the script to run when the button G1 is pressed. Default=None')
-	ap.add_argument('--g1_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button G1 is released. Default=None')
-	ap.add_argument('--b1_pressed', type=str, required=False, default=None,
-					help='Path to the script to run when the button B1 is pressed. Default=None')
-	ap.add_argument('--b1_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button B1 is released. Default=None')
-	ap.add_argument('--r1_pressed', type=str, required=False, default=None,
-					help='Path to the script to run when the button R1 is pressed. Default=None')
-	ap.add_argument('--r1_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button R1 is released. Default=None')
-	ap.add_argument('--g2_pressed', type=str, required=False, default=None,
-					help='Path to the script to run when the button G2 is pressed. Default=None')
-	ap.add_argument('--g2_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button G2 is released. Default=None')
-	ap.add_argument('--b2_pressed', type=str, required=False, default=None,
-					help='Path to the script to run when the button B2 is pressed. Default=None')
-	ap.add_argument('--b2_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button B2 is released. Default=None')
-	ap.add_argument('--r2_pressed', type=str, required=False, default=None,
-					help='Path to the script to run when the button R2 is pressed. Default=None')
-	ap.add_argument('--r2_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button R2 is released. Default=None')
-	ap.add_argument('--s1_held', type=str, required=False, default=None,
-					help='Path to the script to run when the button S1 is held. Default=None')
-	ap.add_argument('--s1_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button S1 is released. Default=None')
-	ap.add_argument('--s2_held', type=str, required=False, default=None,
-					help='Path to the script to run when the button S2 is held. Default=None')
-	ap.add_argument('--s2_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button S2 is released. Default=None')
-	ap.add_argument('--s3_held', type=str, required=False, default=None,
-					help='Path to the script to run when the button S3 is held. Default=None')
-	ap.add_argument('--s3_released', type=str, required=False, default=None,
-					help='Path to the script to run when the button S3 is released. Default=None')
+	ap.add_argument('--g1_pressed', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--g1_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--b1_pressed', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--b1_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--r1_pressed', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--r1_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--g2_pressed', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--g2_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--b2_pressed', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--b2_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--r2_pressed', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--r2_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--s1_held', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--s1_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--s2_held', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--s2_released', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--s3_held', type=str, required=False, default=None, help=SUPPRESS)
+	ap.add_argument('--s3_released', type=str, required=False, default=None, help=SUPPRESS)
 	ap.add_argument('-i', '--info', action='store_true', required=False, help='Just print the board information.')
 	ap.add_argument('-d', '--debug', action='store_true', required=False, help='Prints events to the terminal.')
 	return vars(ap.parse_args())
