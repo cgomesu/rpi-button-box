@@ -29,10 +29,12 @@ def cli_args():
 	ap = ArgumentParser(description='RPi button box controller. Repo: https://github.com/cgomesu/rpi-button-box')
 	ap.add_argument('--buzzer', type=int, required=False, help='If installed, the buzzer\'s GPIO number.')
 	ap.add_argument('--cmd', type=str, required=False, choices=['Popen', 'run'], default='run',
-					help='Popen: invoke external scripts in a NON-BLOCKING fashion. '
-						'run: invoke external scripts in a BLOCKING fashion. Default=run')
-	ap.add_argument('--g1_pressed', type=str, required=False, help=SUPPRESS)
-	ap.add_argument('--g1_released', type=str, required=False, help=SUPPRESS)
+		help='Popen: run external scripts in a NON-BLOCKING fashion. '
+		'run: run external scripts in a BLOCKING fashion. Default=run')
+	ap.add_argument('--g1_pressed', type=str, required=False, help='/path/to/script to be run when G1 is pressed. '
+		'The --btn_pressed arg is available to other PUSH buttons as well.')
+	ap.add_argument('--g1_released', type=str, required=False, help='/path/to/script to be run when G1 is released. '
+		'The --btn_released arg is available to other PUSH buttons as well.')
 	ap.add_argument('--b1_pressed', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--b1_released', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--r1_pressed', type=str, required=False, help=SUPPRESS)
@@ -43,14 +45,16 @@ def cli_args():
 	ap.add_argument('--b2_released', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--r2_pressed', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--r2_released', type=str, required=False, help=SUPPRESS)
-	ap.add_argument('--s1_held', type=str, required=False, help=SUPPRESS)
-	ap.add_argument('--s1_released', type=str, required=False, help=SUPPRESS)
+	ap.add_argument('--s1_held', type=str, required=False, help='/path/to/script to be run when S1 is held. '
+		'The --btn_held arg is available to other SWITCHES as well.')
+	ap.add_argument('--s1_released', type=str, required=False, help='/path/to/script to be run when S1 is released. '
+		'The --btn_released arg is available to other SWITCHES as well.')
 	ap.add_argument('--s2_held', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--s2_released', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--s3_held', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--s3_released', type=str, required=False, help=SUPPRESS)
-	ap.add_argument('-i', '--info', action='store_true', required=False, help='Just print the board information.')
-	ap.add_argument('-d', '--debug', action='store_true', required=False, help='Prints events to the terminal.')
+	ap.add_argument('-i', '--info', action='store_true', required=False, help='Show the board information.')
+	ap.add_argument('-d', '--debug', action='store_true', required=False, help='Print additional messages to the terminal.')
 	return vars(ap.parse_args())
 
 
@@ -128,10 +132,9 @@ def event_released(btn):
 def main():
 	try:
 		# logging configuration
-		logging.basicConfig(filename='button-box.log',
-							level=logging.INFO,
-							format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s : %(message)s',
-							datefmt='%Y-%m-%d %H:%M:%S')
+		logging.basicConfig(filename='button-box.log', level=logging.INFO,
+			format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s : %(message)s',
+			datefmt='%Y-%m-%d %H:%M:%S')
 		logging.info('Started the button box controller')
 		buttons = config_buttons()
 		# wait for a button labelled 'power' to be turned ON before continuing
