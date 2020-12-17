@@ -9,6 +9,9 @@ This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misc
   <img src="imgs/preview-rpi-and-buttons.jpg" style="width: 50%;">
 </p>
 
+<p align="center">
+  <img src="imgs/preview-rpi-and-buttons-closed-2.jpg" style="width: 50%;">
+</p>
 
 # Wiring
 <p align="center">
