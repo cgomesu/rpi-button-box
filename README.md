@@ -22,7 +22,9 @@ This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misc
   * `gpiozero`, `rpi.gpio`, (and other standard Python libraries)
 
 # Installation
-The button box controller was developed for the Lite version of the [Raspberry Pi OS](https://www.raspberrypi.org/software/) but it should work with other similar systems for single board computers (e.g., [Armbian](https://www.armbian.com/)).  The following instructions assume you're logged in with a `sudo` user (e.g., `pi`).
+The button box controller was developed for the Lite version of the [Raspberry Pi OS](https://www.raspberrypi.org/software/) but it should work with other similar systems for single board computers (e.g., [Armbian](https://www.armbian.com/)).  
+
+The following instructions assume you're logged in with the `pi` user with `sudo` permission. (This is not a requirement but if different, make sure to change file permissions accordingly.  This applies to `systemd` service file and `logrotate/button-box` config as well.)
 
 1. Use `apt` to install required programs
 ```
@@ -115,7 +117,7 @@ The script generates a `button-box.log` log file to keep track of controller-rel
 ```
 
 # Run the controller as a service
-If you're using options different than the default values, first edit the `systemd/button-box.service` file to include those options into the `ExecStart=` command execution. Then, run `button-box.py` as a service, as follows:
+If you're using options different than the default values, first edit the `systemd/button-box.service` file to include those options into the `ExecStart=` command execution.  (Reminder: If you've installed Python3 libraries with a user different than `pi` and the `rpi-button-box` dir is owned by another user, you'll have to edit the `systemd/button-box.service` file to reflect such changes. Otherwise, you will run into errors related to permission.) Then, run `button-box.py` as a service, as follows:
 
 1. Copy the `systemd/button-box.service` file to your systemd directory
 ```
