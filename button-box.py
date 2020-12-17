@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 ###########################################################################
-# RPi button box controller for bix with 06 push buttons and 03 switches
+# RPi button box controller for 06 push buttons and 03 switches
 #
 # Author: cgomesu
 # Project: https://cgomesu.com/blog/Rpi-button-box-ehdd-enclosure/
