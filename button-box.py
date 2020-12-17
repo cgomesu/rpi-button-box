@@ -10,6 +10,7 @@
 # Related docs:
 # - argparse: https://docs.python.org/3/library/argparse.html
 # - gpiozero: https://gpiozero.readthedocs.io/en/stable/index.html
+# - logging: https://docs.python.org/3/library/logging.html
 # - signal: https://docs.python.org/3/library/signal.html
 # - subprocess: https://docs.python.org/3/library/subprocess.html
 # - time: https://docs.python.org/3/library/time.html

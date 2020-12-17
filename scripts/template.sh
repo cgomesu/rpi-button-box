@@ -3,8 +3,8 @@
 ######################################
 # Template for a button shell script #
 #######################################################################
-# Note 01.	Proper use of exit statuses is key if using this script in 
-# 			conjunction with Python's subprocess.run() or check
+# Note 01. Proper use of exit statuses is key if using this script in
+# 	   conjunction with Python's subprocess.run() or check
 #######################################################################
 
 
@@ -38,7 +38,7 @@ start () {
 # script logic goes here
 trap 'end "Received a signal to stop." 1'  SIGINT SIGTERM SIGHUP
 
-start 
+start
 # if necessary, add call to other functions here
 
 end 'Reached EOF' 0
