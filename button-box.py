@@ -31,9 +31,9 @@ def cli_args():
 	ap.add_argument('--cmd', type=str, required=False, choices=['Popen', 'run'], default='run',
 		help='Popen: run external scripts in a NON-BLOCKING fashion. '
 		'run: run external scripts in a BLOCKING fashion. Default=run')
-	ap.add_argument('--g1_pressed', type=str, required=False, help='/path/to/script to be run when G1 is pressed. '
+	ap.add_argument('--g1_pressed', type=str, required=False, help='/path/to/script to run when G1 is pressed. '
 		'The --btn_pressed arg is available to other PUSH buttons as well.')
-	ap.add_argument('--g1_released', type=str, required=False, help='/path/to/script to be run when G1 is released. '
+	ap.add_argument('--g1_released', type=str, required=False, help='/path/to/script to run when G1 is released. '
 		'The --btn_released arg is available to other PUSH buttons as well.')
 	ap.add_argument('--b1_pressed', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--b1_released', type=str, required=False, help=SUPPRESS)
@@ -45,9 +45,9 @@ def cli_args():
 	ap.add_argument('--b2_released', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--r2_pressed', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--r2_released', type=str, required=False, help=SUPPRESS)
-	ap.add_argument('--s1_held', type=str, required=False, help='/path/to/script to be run when S1 is held. '
+	ap.add_argument('--s1_held', type=str, required=False, help='/path/to/script to run when S1 is held. '
 		'The --btn_held arg is available to other SWITCHES as well.')
-	ap.add_argument('--s1_released', type=str, required=False, help='/path/to/script to be run when S1 is released. '
+	ap.add_argument('--s1_released', type=str, required=False, help='/path/to/script to run when S1 is released. '
 		'The --btn_released arg is available to other SWITCHES as well.')
 	ap.add_argument('--s2_held', type=str, required=False, help=SUPPRESS)
 	ap.add_argument('--s2_released', type=str, required=False, help=SUPPRESS)
