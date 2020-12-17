@@ -1,5 +1,5 @@
 # rpi-button-box
-Core program for a Raspberry Pi **button box controller** that uses the `gpiozero` Python library.  This repo is a companion to my blog post about [repurposing external HDD cases into buttons boxes](#).  
+Core program for a Raspberry Pi **button box controller** that uses the `gpiozero` Python library.  This repo is a companion to my blog post about [repurposing external HDD cases into buttons boxes](https://cgomesu.com/blog/Rpi-button-box-ehdd-enclosure/).  If you have any questions or want to share your opinions, use the [Discussions](https://github.com/cgomesu/rpi-button-box/discussions) option.  If you have issues with the program, then [open an issue](https://github.com/cgomesu/rpi-button-box/issues).
 
 ## Disclaimer
 This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misconfigured pins might damage your board.
@@ -13,10 +13,10 @@ This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misc
 * Raspberry Pi
   * 40 GPIO pins version
 * Python3
-  * `gpiozero`, `rpi.gpio`
+  * `gpiozero`, `rpi.gpio`, (and other standard Python libraries)
 
 # Installation
-The button box controller was developed for the [Raspberry Pi OS](https://www.raspberrypi.org/software/) but it should work with other similar systems for single board computers.  The following instructions assuming you're logged in with a `sudo` user (e.g., `pi`).
+The button box controller was developed for the [Raspberry Pi OS](https://www.raspberrypi.org/software/) but it should work with other similar systems for single board computers.  The following instructions assume you're logged in with a `sudo` user (e.g., `pi`).
 
 1. Use `apt` to install required programs
 ```
@@ -90,7 +90,7 @@ The script generates a `button-box.log` log file to keep track of controller-rel
 ./button-box.py -i
 ```
 
-* Run the controller in debug mode and the buzzer (`GPIO4`)
+* Run the controller in debug mode (prints more messages to the terminal) and enable the buzzer (`GPIO4`)
 ```
 ./button-box.py -d --buzzer 4
 ```
@@ -107,5 +107,19 @@ The script generates a `button-box.log` log file to keep track of controller-rel
 --r2_pressed '/opt/rpi-button-box/scripts/template.sh'
 ```
 
-# Run as a service
-TBA
+# Run the controller as a service
+If you're using options different than the default values, first edit the `systemd/button-box.service` file to include those options into the `ExecStart=` command execution. Then, run `button-box.py` as a service, as follows:
+
+1. Copy the `systemd/button-box.service` file to your systemd directory
+```
+cp /opt/rpi-button-box/systemd/button-box.service /lib/systemd/system/
+```
+2. Enable the service and start it
+```
+systemctl enable button-box.service
+systemctl start button-box.service
+```
+3. Check the service status to make sure it's running without issues
+```
+systemctl status button-box.service
+```

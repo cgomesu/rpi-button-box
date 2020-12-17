@@ -1,10 +1,10 @@
 /opt/rpi-button-box/button-box.log
 {
-        rotate 3
-        weekly
-        missingok
-        notifempty
-		copytruncate
-        compress
+	rotate 3
+	weekly
+	missingok
+	notifempty
+	copytruncate
+	compress
 }
 
