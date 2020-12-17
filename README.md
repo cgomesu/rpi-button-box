@@ -6,7 +6,7 @@ This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misc
 
 # Wiring
 <p align="center">
-  <img width="50%" src="imgs/button-box-wiring.jpg">
+  <img src="imgs/button-box-wiring.jpg" style="width: 50%;">
 </p>
 
 # Requirements
