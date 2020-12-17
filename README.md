@@ -135,3 +135,18 @@ sudo systemctl start button-box.service
 ```
 systemctl status button-box.service
 ```
+
+# Bash script template
+I've included a template for bash scripts on `scripts/template.sh` that anyone can use to create their customized set of commands to run upon a button event.  Just copy the template, rename it, edit it according to your needs, and when running the `button-box.py` controller, add the full path to the new script to one (or more) of the `--btn_*` arguments.  For example:
+```
+./button-box.py --buzzer 4 \
+--g1_pressed '/opt/rpi-button-box/scripts/notification.sh' \
+--b1_pressed '/opt/rpi-button-box/scripts/switch_cameras.sh' \
+--r1_pressed '/opt/rpi-button-box/scripts/lights_toggle.sh' \
+--g2_pressed '/opt/rpi-button-box/scripts/test_connectivity.sh' \
+--b2_pressed '/opt/rpi-button-box/scripts/shutdown.sh' \
+--r2_pressed '/opt/rpi-button-box/scripts/reboot.sh' \
+--s2_held '/opt/rpi-button-box/scripts/alarm_on.sh' \
+--s2_released '/opt/rpi-button-box/scripts/alarm_off.sh' \
+--s3_held '/opt/rpi-button-box/scripts/emergency.sh'
+```
