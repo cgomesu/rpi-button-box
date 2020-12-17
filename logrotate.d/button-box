@@ -6,5 +6,6 @@
 	notifempty
 	copytruncate
 	compress
+	create 644 pi root
 }
 

@@ -4,9 +4,8 @@ Description=A button box controller for the Raspberry Pi
 [Service]
 # Edit the directory below if you placed the folder elsewhere
 Type=simple
-
-# If you have permission issues, you might want to uncomment and edit the following to match your folder permissions
-# User=USER
+# User must match folder permission and user with the required Python packages
+User=pi
 # Group=GROUP
 
 # Edit the arguments according to your needs
@@ -16,6 +15,8 @@ ExecStart=/usr/bin/python3 /opt/rpi-button-box/button-box.py
 Restart=always
 RestartSec=10
 
+# Tell how systemd should kill this process
+KillMode=process
 KillSignal=SIGINT
 
 [Install]

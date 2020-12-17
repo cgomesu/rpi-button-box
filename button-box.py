@@ -132,7 +132,7 @@ def event_released(btn):
 def main():
 	try:
 		# logging configuration
-		logging.basicConfig(filename='button-box.log', level=logging.INFO,
+		logging.basicConfig(filename='/opt/rpi-button-box/button-box.log', level=logging.INFO,
 			format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s : %(message)s',
 			datefmt='%Y-%m-%d %H:%M:%S')
 		logging.info('Started the button box controller')

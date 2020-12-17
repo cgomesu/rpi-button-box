@@ -17,12 +17,12 @@ This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misc
 
 # Requirements
 * Raspberry Pi
-  * 40 GPIO pins version
+  * 40 GPIO pins version (but you can easily adapt to any revision)
 * Python3
   * `gpiozero`, `rpi.gpio`, (and other standard Python libraries)
 
 # Installation
-The button box controller was developed for the [Raspberry Pi OS](https://www.raspberrypi.org/software/) but it should work with other similar systems for single board computers.  The following instructions assume you're logged in with a `sudo` user (e.g., `pi`).
+The button box controller was developed for the Lite version of the [Raspberry Pi OS](https://www.raspberrypi.org/software/) but it should work with other similar systems for single board computers (e.g., [Armbian](https://www.armbian.com/)).  The following instructions assume you're logged in with a `sudo` user (e.g., `pi`).
 
 1. Use `apt` to install required programs
 ```
@@ -41,7 +41,8 @@ pip3 install -r /opt/rpi-button-box/requirements.txt
 ```
 4. Test `button-box.py`
 ```
-./opt/rpi-button-box/button-box.py -h
+cd /opt/rpi-button-box
+./button-box.py -h
 ```
 5. (Optional.) Allow `logrotate` (enabled by default) to manage the `button-box.log` log files:
 ```
@@ -118,12 +119,12 @@ If you're using options different than the default values, first edit the `syste
 
 1. Copy the `systemd/button-box.service` file to your systemd directory
 ```
-cp /opt/rpi-button-box/systemd/button-box.service /lib/systemd/system/
+sudo cp /opt/rpi-button-box/systemd/button-box.service /lib/systemd/system/
 ```
 2. Enable the service and start it
 ```
-systemctl enable button-box.service
-systemctl start button-box.service
+sudo systemctl enable button-box.service
+sudo systemctl start button-box.service
 ```
 3. Check the service status to make sure it's running without issues
 ```
