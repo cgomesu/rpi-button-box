@@ -2,7 +2,6 @@
 Description=A button box controller for the Raspberry Pi
 
 [Service]
-# Edit the directory below if you placed the folder elsewhere
 Type=simple
 # User must match folder permission and user with the required Python packages
 User=pi

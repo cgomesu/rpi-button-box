@@ -1,5 +1,5 @@
 # rpi-button-box
-Core program for a Raspberry Pi **button box controller** that uses the `gpiozero` Python library.  This repo is a companion to my blog post about [repurposing external HDD cases into buttons boxes](https://cgomesu.com/blog/Rpi-button-box-ehdd-enclosure/).  If you have any questions or want to share your opinions, use the [Discussions](https://github.com/cgomesu/rpi-button-box/discussions) option.  If you have issues with the program, then [open an issue](https://github.com/cgomesu/rpi-button-box/issues).
+Core program for a Raspberry Pi **button box controller** that uses the `gpiozero` Python library.  This repo is a companion to my blog post about [repurposing external HDD cases into button boxes](https://cgomesu.com/blog/Rpi-button-box-ehdd-enclosure/).  If you have any questions or want to share your opinions, use the [Discussions](https://github.com/cgomesu/rpi-button-box/discussions) option.  If you have issues with the program, then [open an issue](https://github.com/cgomesu/rpi-button-box/issues).
 
 ## Disclaimer
 This is free and has **no warranty** whatsoever.  Use it at your own risk.  Misconfigured pins might damage your board.
