@@ -122,9 +122,9 @@ def event_released(btn):
 		end(msg='The power button ({}) was released from the ON state.'.format(btn.pin), status=0)
 	elif btn.cmdreleased:
 		logging.info('Started running the following command: \'{}\''.format(btn.cmdreleased))
-		Popen(btn.cmdheld) if args['cmd'] == 'Popen' else run(btn.cmdheld)
+		Popen(btn.cmdreleased) if args['cmd'] == 'Popen' else run(btn.cmdreleased)
 		if args['debug']:
-			print('Finished invoking the script at \'{}\''.format(btn.cmdheld))
+			print('Finished invoking the script at \'{}\''.format(btn.cmdreleased))
 		logging.info('Finished waiting for the following command: \'{}\''.format(btn.cmdreleased))
 	sleep(0.05)
 
